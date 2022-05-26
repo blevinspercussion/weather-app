@@ -8,6 +8,7 @@ const mainContainerDiv = document.getElementById("main-container");
 const headerDiv = document.getElementById("header");
 const contentDiv = document.getElementById("content");
 const weatherDiv = document.getElementById("weather-div");
+const formDiv = document.getElementById("form-div");
 
 let weatherData;
 let response;
@@ -23,7 +24,7 @@ function clearDiv(div) {
 const weatherCardController = (() => {
   const drawWeatherCard = (temp, description) => {
     clearDiv(weatherDiv);
-    clearDiv(document.querySelector("form"));
+    // clearDiv(document.querySelector("form"));
 
     let weatherCard = document.createElement("div");
     let weatherCardDate = document.createElement("h1");
@@ -68,7 +69,7 @@ const formController = (() => {
     cityLabel.textContent = "City:  ";
     submitButton.textContent = "Submit";
 
-    contentDiv.appendChild(form);
+    formDiv.appendChild(form);
     form.appendChild(cityLabel);
     form.appendChild(cityField);
     form.appendChild(submitButton);
@@ -88,7 +89,7 @@ async function getMain(city) {
   let mainWeather = await data.weather[0].main;
   let description = await data.weather[0].description;
 
-  clearDiv(document.querySelector("form"));
+  clearDiv(formDiv);
   weatherCardController.drawWeatherCard(tempF, description);
   formController.drawForm();
 }
