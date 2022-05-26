@@ -9,6 +9,7 @@
 
 #content {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 
@@ -30,4 +31,22 @@
 
 .weather-body {
     font-size: xx-large;
+}
+
+form {
+    padding: 20px;
+    margin: 20px;
+}
+
+label {
+    font-size: x-large;
+}
+
+button {
+    font-size: x-large;
+}
+
+input {
+    height: 30px;
+    font-size: x-large;
 }

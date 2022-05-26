@@ -44,14 +44,35 @@ async function apiQuery(city) {
   return await response.json();
 }
 
+// Module to control the form
+const formController = (() => {
+  const drawForm = () => {
+    const form = document.createElement("form");
+    const cityLabel = document.createElement("label");
+    const cityField = document.createElement("input");
+    const submitButton = document.createElement("button");
+
+    form.setAttribute("onsubmit", "return false");
+
+    cityLabel.textContent = "City:  ";
+    submitButton.textContent = "Submit";
+
+    contentDiv.appendChild(form);
+    form.appendChild(cityLabel);
+    form.appendChild(cityField);
+    form.appendChild(submitButton);
+  };
+  return { drawForm };
+})();
 async function getMain(city) {
   let data = await apiQuery(city);
   let tempK = await data.main.temp;
-  let tempC = Math.round((tempK - 273.15) * 100) / 100;
-  let tempF = Math.round((tempC * (9 / 5) + 32) * 100) / 100;
+  let tempC = Math.round((tempK - 273.15) * 10) / 10;
+  let tempF = Math.round((tempC * (9 / 5) + 32) * 10) / 10;
   let mainWeather = await data.weather[0].main;
   let description = await data.weather[0].description;
 
+  formController.drawForm();
   weatherCardController.drawWeatherCard(tempF, description);
 }
 getMain("Birmingham");
