@@ -7,13 +7,24 @@ const urlMiddle = "&APPID=";
 const mainContainerDiv = document.getElementById("main-container");
 const headerDiv = document.getElementById("header");
 const contentDiv = document.getElementById("content");
+const weatherDiv = document.getElementById("weather-div");
 
 let weatherData;
 let response;
+let city = "Birmingham";
+
+function clearDiv(div) {
+  while (div.firstChild) {
+    div.removeChild(div.firstChild);
+  }
+}
 
 // Module to control weather card
 const weatherCardController = (() => {
   const drawWeatherCard = (temp, description) => {
+    clearDiv(weatherDiv);
+    clearDiv(document.querySelector("form"));
+
     let weatherCard = document.createElement("div");
     let weatherCardDate = document.createElement("h1");
     let weatherCardTemp = document.createElement("p");
@@ -24,7 +35,7 @@ const weatherCardController = (() => {
     weatherCardTemp.classList.add("weather-body");
     weatherCardDescription.classList.add("weather-body");
 
-    contentDiv.appendChild(weatherCard);
+    weatherDiv.appendChild(weatherCard);
     weatherCard.appendChild(weatherCardDate);
     weatherCard.appendChild(weatherCardTemp);
     weatherCard.appendChild(weatherCardDescription);
@@ -61,6 +72,11 @@ const formController = (() => {
     form.appendChild(cityLabel);
     form.appendChild(cityField);
     form.appendChild(submitButton);
+
+    submitButton.addEventListener("click", () => {
+      city = cityField.value;
+      getMain(city);
+    });
   };
   return { drawForm };
 })();
@@ -72,7 +88,9 @@ async function getMain(city) {
   let mainWeather = await data.weather[0].main;
   let description = await data.weather[0].description;
 
-  formController.drawForm();
+  clearDiv(document.querySelector("form"));
   weatherCardController.drawWeatherCard(tempF, description);
+  formController.drawForm();
 }
-getMain("Birmingham");
+
+formController.drawForm();
