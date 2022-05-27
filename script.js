@@ -3,6 +3,8 @@ const gifApiKey = "aY5njGGdGK9pPmx5nPARWp7npLyt8QQy";
 const urlBegin = "http://api.openweathermap.org/data/2.5/weather?q=";
 const urlMiddle = "&APPID=";
 const weatherImageUrl = "http://openweathermap.org/img/wn/";
+const geoCodeUrlBegin = "http://api.openweathermap.org/geo/1.0/direct?q=";
+const geoCodeUrlMiddle = "&limit=1&appid=";
 
 // DOM Constants
 const mainContainerDiv = document.getElementById("main-container");
@@ -62,6 +64,14 @@ async function apiQuery(city) {
   return await response.json();
 }
 
+async function locApiQuery(city) {
+  response = await fetch(
+    geoCodeUrlBegin + city + geoCodeUrlMiddle + weatherApiKey,
+    { mode: "cors" }
+  );
+  return await response.json();
+}
+
 // Module to control the form
 const formController = (() => {
   const drawForm = () => {
@@ -90,6 +100,7 @@ const formController = (() => {
 
 // Gets weather info from Open Weather API and calls functions to draw information to the screen
 async function getMain(city) {
+  // Get weather info
   let data = await apiQuery(city);
   let icon = await data.weather[0].icon;
   let tempK = await data.main.temp;
@@ -98,7 +109,15 @@ async function getMain(city) {
   let mainWeather = await data.weather[0].main; // Not currently used...maybe use in the future to populate further info
   let description = await data.weather[0].description;
 
-  console.log(icon);
+  // Get city and state
+  let locData = await locApiQuery(city);
+  city = locData[0].name;
+  let state = locData[0].state;
+  let country = locData[0].country;
+
+  console.log(city);
+  console.log(state);
+  console.log(country);
 
   clearDiv(formDiv);
   weatherCardController.drawWeatherCard(tempF, description, icon);
