@@ -3,8 +3,6 @@ const gifApiKey = "aY5njGGdGK9pPmx5nPARWp7npLyt8QQy";
 const urlBegin = "http://api.openweathermap.org/data/2.5/weather?q=";
 const urlMiddle = "&APPID=";
 const weatherImageUrl = "http://openweathermap.org/img/wn/";
-const geoCodeUrlBegin = "http://api.openweathermap.org/geo/1.0/direct?q=";
-const geoCodeUrlMiddle = "&limit=1&appid=";
 
 // DOM Constants
 const mainContainerDiv = document.getElementById("main-container");
@@ -64,11 +62,8 @@ async function apiQuery(city) {
   return await response.json();
 }
 
-async function locApiQuery(city) {
-  response = await fetch(
-    geoCodeUrlBegin + city + geoCodeUrlMiddle + weatherApiKey,
-    { mode: "cors" }
-  );
+async function locApiQuery(geoCodeUrl) {
+  response = await fetch(geoCodeUrl, { mode: "cors" });
   return await response.json();
 }
 
@@ -126,6 +121,22 @@ async function getMain(city) {
 
   console.log(lat);
   console.log(lon);
+
+  let geoCodeUrl =
+    "http://api.openweathermap.org/geo/1.0/reverse?lat=" +
+    lat +
+    "&lon=" +
+    lon +
+    "&limit=1&appid=" +
+    weatherApiKey;
+
+  let locData = await locApiQuery(geoCodeUrl);
+
+  city = locData[0].name;
+  let state = locData[0].state;
+  let country = locData[0].country;
+
+  console.log(city, state, country);
 
   clearDiv(formDiv);
   weatherCardController.drawWeatherCard(tempF, description, icon);
