@@ -25,7 +25,15 @@ function clearDiv(div) {
 
 // Module to control weather card
 const weatherCardController = (() => {
-  const drawWeatherCard = (temp, description, icon, city, state) => {
+  const drawWeatherCard = (
+    temp,
+    hiTemp,
+    lowTemp,
+    description,
+    icon,
+    city,
+    state
+  ) => {
     clearDiv(weatherDiv);
     // clearDiv(document.querySelector("form"));
 
@@ -102,6 +110,7 @@ const weatherCardController = (() => {
     let weatherCardDate = document.createElement("h1");
     let weatherCardLocation = document.createElement("p");
     let weatherCardTemp = document.createElement("p");
+    let weatherCardHiLowTemp = document.createElement("p");
     let weatherCardDescription = document.createElement("p");
     let weatherIcon = document.createElement("img");
 
@@ -109,6 +118,7 @@ const weatherCardController = (() => {
     weatherCardDate.classList.add("date");
     weatherCardLocation.classList.add("weather-body");
     weatherCardTemp.classList.add("weather-body");
+    weatherCardHiLowTemp.classList.add("weather-card-sub");
     weatherCardDescription.classList.add("weather-body");
     weatherIcon.classList.add("icon");
 
@@ -118,11 +128,14 @@ const weatherCardController = (() => {
     weatherCard.appendChild(weatherCardDate);
     weatherCard.appendChild(weatherCardLocation);
     weatherCard.appendChild(weatherCardTemp);
+    weatherCard.appendChild(weatherCardHiLowTemp);
     weatherCard.appendChild(weatherIcon);
 
     weatherCardDate.textContent = `${day}, ${month} ${dayNo}`;
     weatherCardLocation.textContent = `${city}, ${state}`;
     weatherCardTemp.textContent = temp;
+    weatherCardTemp.innerHTML += "&#176F";
+    weatherCardHiLowTemp.textContent = `${lowTemp} / ${hiTemp}`;
     weatherCardDescription.textContent = description;
   };
   return { drawWeatherCard };
@@ -180,6 +193,12 @@ async function getMain(city) {
   let tempK = await data.main.temp;
   let tempC = Math.round((tempK - 273.15) * 10) / 10;
   let tempF = Math.round((tempC * (9 / 5) + 32) * 10) / 10;
+  let hiTempK = await data.main.temp_max;
+  let hiTempC = Math.round((hiTempK - 273.15) * 10) / 10;
+  let hiTempF = Math.round((hiTempC * (9 / 5) + 32) * 10) / 10;
+  let lowTempK = await data.main.temp_min;
+  let lowTempC = Math.round((lowTempK - 273.15) * 10) / 10;
+  let lowTempF = Math.round((lowTempC * (9 / 5) + 32) * 10) / 10;
   let mainWeather = await data.weather[0].main; // Not currently used...maybe use in the future to populate further info
   let description = await data.weather[0].description;
 
@@ -202,7 +221,15 @@ async function getMain(city) {
   let country = locData[0].country;
 
   clearDiv(formDiv);
-  weatherCardController.drawWeatherCard(tempF, description, icon, city, state);
+  weatherCardController.drawWeatherCard(
+    tempF,
+    hiTempF,
+    lowTempF,
+    description,
+    icon,
+    city,
+    state
+  );
   formController.drawForm();
 }
 

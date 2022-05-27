@@ -62,3 +62,8 @@ input {
 .icon {
 
 }
+
+.weather-card-sub {
+    font-size: larger;
+    margin-top: -25px;
+}
