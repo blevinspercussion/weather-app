@@ -1,3 +1,7 @@
+body {
+    background-color: #5d5c61;
+}
+
 #main-container {
     display: grid;
     grid-template-rows: 1fr 5fr;
@@ -23,10 +27,12 @@
     border: 2px solid black;
     padding: 25px;
     border-radius: 15px;
+    background-color: #7395ae;
+    box-shadow: 5px 5px 10px black;
 }
 
 .date {
-
+    
 }
 
 .weather-body {
@@ -35,6 +41,7 @@
 
 form {
     display: grid;
+
     padding: 20px;
     margin: 20px;
 }
