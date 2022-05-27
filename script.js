@@ -4,6 +4,8 @@ const urlBegin = "http://api.openweathermap.org/data/2.5/weather?q=";
 const urlMiddle = "&APPID=";
 const weatherImageUrl = "http://openweathermap.org/img/wn/";
 
+const date = new Date();
+
 // DOM Constants
 const mainContainerDiv = document.getElementById("main-container");
 const headerDiv = document.getElementById("header");
@@ -27,6 +29,75 @@ const weatherCardController = (() => {
     clearDiv(weatherDiv);
     // clearDiv(document.querySelector("form"));
 
+    let day = date.getDay();
+    let dayNo = date.getDate();
+    let month = date.getMonth();
+
+    // Convert number day to string day
+    switch (day) {
+      case 0:
+        day = "Sunday";
+        break;
+      case 1:
+        day = "Monday";
+        break;
+      case 2:
+        day = "Tuesday";
+        break;
+      case 3:
+        day = "Wednesday";
+        break;
+      case 4:
+        day = "Thursday";
+        break;
+      case 5:
+        day = "Friday";
+        break;
+      case 6:
+        day = "Saturday";
+        break;
+    }
+
+    // Convert number month to string month
+    switch (month) {
+      case 0:
+        month = "January";
+        break;
+      case 1:
+        month = "February";
+        break;
+      case 2:
+        month = "March";
+        break;
+      case 3:
+        month = "April";
+        break;
+      case 4:
+        month = "May";
+        break;
+      case 5:
+        month = "June";
+        break;
+      case 6:
+        month = "July";
+        break;
+      case 7:
+        month = "August";
+        break;
+      case 8:
+        month = "September";
+        break;
+      case 9:
+        month = "October";
+        break;
+      case 10:
+        month = "November";
+        break;
+      case 11:
+        month = "December";
+        break;
+    }
+
     let weatherCard = document.createElement("div");
     let weatherCardDate = document.createElement("h1");
     let weatherCardTemp = document.createElement("p");
@@ -47,7 +118,7 @@ const weatherCardController = (() => {
     // weatherCard.appendChild(weatherCardDescription);
     weatherCard.appendChild(weatherIcon);
 
-    weatherCardDate.textContent = "Today";
+    weatherCardDate.textContent = `${day}, ${month} ${dayNo}`;
     weatherCardTemp.textContent = temp;
     weatherCardDescription.textContent = description;
   };
