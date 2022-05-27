@@ -25,7 +25,7 @@ function clearDiv(div) {
 
 // Module to control weather card
 const weatherCardController = (() => {
-  const drawWeatherCard = (temp, description, icon) => {
+  const drawWeatherCard = (temp, description, icon, city, state) => {
     clearDiv(weatherDiv);
     // clearDiv(document.querySelector("form"));
 
@@ -100,12 +100,14 @@ const weatherCardController = (() => {
 
     let weatherCard = document.createElement("div");
     let weatherCardDate = document.createElement("h1");
+    let weatherCardLocation = document.createElement("p");
     let weatherCardTemp = document.createElement("p");
     let weatherCardDescription = document.createElement("p");
     let weatherIcon = document.createElement("img");
 
     weatherCard.classList.add("weather-card");
     weatherCardDate.classList.add("date");
+    weatherCardLocation.classList.add("weather-body");
     weatherCardTemp.classList.add("weather-body");
     weatherCardDescription.classList.add("weather-body");
     weatherIcon.classList.add("icon");
@@ -114,11 +116,12 @@ const weatherCardController = (() => {
 
     weatherDiv.appendChild(weatherCard);
     weatherCard.appendChild(weatherCardDate);
+    weatherCard.appendChild(weatherCardLocation);
     weatherCard.appendChild(weatherCardTemp);
-    // weatherCard.appendChild(weatherCardDescription);
     weatherCard.appendChild(weatherIcon);
 
     weatherCardDate.textContent = `${day}, ${month} ${dayNo}`;
+    weatherCardLocation.textContent = `${city}, ${state}`;
     weatherCardTemp.textContent = temp;
     weatherCardDescription.textContent = description;
   };
@@ -184,15 +187,6 @@ async function getMain(city) {
   let lat = await data.coord.lat;
   let lon = await data.coord.lon;
 
-  // Get city and state
-  // let locData = await locApiQuery(city);
-  // city = locData[0].name;
-  // let state = locData[0].state;
-  // let country = locData[0].country;
-
-  console.log(lat);
-  console.log(lon);
-
   let geoCodeUrl =
     "http://api.openweathermap.org/geo/1.0/reverse?lat=" +
     lat +
@@ -207,10 +201,8 @@ async function getMain(city) {
   let state = locData[0].state;
   let country = locData[0].country;
 
-  console.log(city, state, country);
-
   clearDiv(formDiv);
-  weatherCardController.drawWeatherCard(tempF, description, icon);
+  weatherCardController.drawWeatherCard(tempF, description, icon, city, state);
   formController.drawForm();
 }
 
