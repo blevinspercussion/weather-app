@@ -1,5 +1,5 @@
 body {
-    background-color: #5d5c61;
+    background-color: #909090;
 }
 
 #main-container {
@@ -57,6 +57,7 @@ button {
 input {
     height: 30px;
     font-size: x-large;
+    border-radius: 5px;
 }
 
 .icon {

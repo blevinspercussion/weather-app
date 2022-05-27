@@ -159,22 +159,22 @@ const formController = (() => {
   const drawForm = () => {
     const form = document.createElement("form");
     const cityLabel = document.createElement("label");
-    const stateLabel = document.createElement("label");
+    // const stateLabel = document.createElement("label");
     const cityField = document.createElement("input");
-    const stateField = document.createElement("input");
+    // const stateField = document.createElement("input");
     const submitButton = document.createElement("button");
 
     form.setAttribute("onsubmit", "return false");
 
     cityLabel.textContent = "City:  ";
-    stateLabel.textContent = "State: ";
+    // stateLabel.textContent = "State: ";
     submitButton.textContent = "Submit";
 
     formDiv.appendChild(form);
     form.appendChild(cityLabel);
     form.appendChild(cityField);
-    form.appendChild(stateLabel);
-    form.appendChild(stateField);
+    // form.appendChild(stateLabel);
+    // form.appendChild(stateField);
     form.appendChild(submitButton);
 
     submitButton.addEventListener("click", () => {
