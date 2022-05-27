@@ -2,6 +2,7 @@ const weatherApiKey = "8b72d72bb036e3dd941b0c85d286e9d8";
 const gifApiKey = "aY5njGGdGK9pPmx5nPARWp7npLyt8QQy";
 const urlBegin = "http://api.openweathermap.org/data/2.5/weather?q=";
 const urlMiddle = "&APPID=";
+const weatherImageUrl = "http://openweathermap.org/img/wn/";
 
 // DOM Constants
 const mainContainerDiv = document.getElementById("main-container");
@@ -22,7 +23,7 @@ function clearDiv(div) {
 
 // Module to control weather card
 const weatherCardController = (() => {
-  const drawWeatherCard = (temp, description) => {
+  const drawWeatherCard = (temp, description, icon) => {
     clearDiv(weatherDiv);
     // clearDiv(document.querySelector("form"));
 
@@ -30,16 +31,21 @@ const weatherCardController = (() => {
     let weatherCardDate = document.createElement("h1");
     let weatherCardTemp = document.createElement("p");
     let weatherCardDescription = document.createElement("p");
+    let weatherIcon = document.createElement("img");
 
     weatherCard.classList.add("weather-card");
     weatherCardDate.classList.add("date");
     weatherCardTemp.classList.add("weather-body");
     weatherCardDescription.classList.add("weather-body");
+    weatherIcon.classList.add("icon");
+
+    weatherIcon.setAttribute("src", weatherImageUrl + icon + "@2x.png");
 
     weatherDiv.appendChild(weatherCard);
     weatherCard.appendChild(weatherCardDate);
     weatherCard.appendChild(weatherCardTemp);
-    weatherCard.appendChild(weatherCardDescription);
+    // weatherCard.appendChild(weatherCardDescription);
+    weatherCard.appendChild(weatherIcon);
 
     weatherCardDate.textContent = "Today";
     weatherCardTemp.textContent = temp;
@@ -81,16 +87,21 @@ const formController = (() => {
   };
   return { drawForm };
 })();
+
+// Gets weather info from Open Weather API and calls functions to draw information to the screen
 async function getMain(city) {
   let data = await apiQuery(city);
+  let icon = await data.weather[0].icon;
   let tempK = await data.main.temp;
   let tempC = Math.round((tempK - 273.15) * 10) / 10;
   let tempF = Math.round((tempC * (9 / 5) + 32) * 10) / 10;
-  let mainWeather = await data.weather[0].main;
+  let mainWeather = await data.weather[0].main; // Not currently used...maybe use in the future to populate further info
   let description = await data.weather[0].description;
 
+  console.log(icon);
+
   clearDiv(formDiv);
-  weatherCardController.drawWeatherCard(tempF, description);
+  weatherCardController.drawWeatherCard(tempF, description, icon);
   formController.drawForm();
 }
 
