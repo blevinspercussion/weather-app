@@ -77,17 +77,22 @@ const formController = (() => {
   const drawForm = () => {
     const form = document.createElement("form");
     const cityLabel = document.createElement("label");
+    const stateLabel = document.createElement("label");
     const cityField = document.createElement("input");
+    const stateField = document.createElement("input");
     const submitButton = document.createElement("button");
 
     form.setAttribute("onsubmit", "return false");
 
     cityLabel.textContent = "City:  ";
+    stateLabel.textContent = "State: ";
     submitButton.textContent = "Submit";
 
     formDiv.appendChild(form);
     form.appendChild(cityLabel);
     form.appendChild(cityField);
+    form.appendChild(stateLabel);
+    form.appendChild(stateField);
     form.appendChild(submitButton);
 
     submitButton.addEventListener("click", () => {
@@ -109,15 +114,18 @@ async function getMain(city) {
   let mainWeather = await data.weather[0].main; // Not currently used...maybe use in the future to populate further info
   let description = await data.weather[0].description;
 
-  // Get city and state
-  let locData = await locApiQuery(city);
-  city = locData[0].name;
-  let state = locData[0].state;
-  let country = locData[0].country;
+  // Get lat and lon
+  let lat = await data.coord.lat;
+  let lon = await data.coord.lon;
 
-  console.log(city);
-  console.log(state);
-  console.log(country);
+  // Get city and state
+  // let locData = await locApiQuery(city);
+  // city = locData[0].name;
+  // let state = locData[0].state;
+  // let country = locData[0].country;
+
+  console.log(lat);
+  console.log(lon);
 
   clearDiv(formDiv);
   weatherCardController.drawWeatherCard(tempF, description, icon);

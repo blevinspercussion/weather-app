@@ -34,6 +34,7 @@
 }
 
 form {
+    display: grid;
     padding: 20px;
     margin: 20px;
 }
@@ -52,5 +53,5 @@ input {
 }
 
 .icon {
-    
+
 }
