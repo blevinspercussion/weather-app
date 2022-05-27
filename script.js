@@ -95,3 +95,4 @@ async function getMain(city) {
 }
 
 formController.drawForm();
+getMain("birmingham");
