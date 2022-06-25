@@ -1,8 +1,8 @@
 const weatherApiKey = "8b72d72bb036e3dd941b0c85d286e9d8";
 const gifApiKey = "aY5njGGdGK9pPmx5nPARWp7npLyt8QQy";
-const urlBegin = "http://api.openweathermap.org/data/2.5/weather?q=";
+const urlBegin = "https://api.openweathermap.org/data/2.5/weather?q=";
 const urlMiddle = "&APPID=";
-const weatherImageUrl = "http://openweathermap.org/img/wn/";
+const weatherImageUrl = "https://openweathermap.org/img/wn/";
 
 const date = new Date();
 
@@ -207,7 +207,7 @@ async function getMain(city) {
   let lon = await data.coord.lon;
 
   let geoCodeUrl =
-    "http://api.openweathermap.org/geo/1.0/reverse?lat=" +
+    "https://api.openweathermap.org/geo/1.0/reverse?lat=" +
     lat +
     "&lon=" +
     lon +
